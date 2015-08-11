@@ -1,0 +1,10 @@
+doctype html
+html
+    head
+        script(src="/static/build/client.js")
+        title quote-list
+    
+    body(ng-app="quotemodule", ng-controller="quotecontroller")
+        h1 {{ test }}
+        span(quote-directive, lars-asdf=1)
+    
