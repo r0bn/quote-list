@@ -6,5 +6,7 @@ html
     
     body(ng-app="quotemodule", ng-controller="quotecontroller")
         h1 {{ test }}
-        span(quote-directive, lars-asdf=1)
-    
+        h2 Kalbshack 6
+        input(type="text", th-enter="doCapture()", ng-model="captureElement")
+        ul
+            li(ng-repeat="item in items"){{ item }}
