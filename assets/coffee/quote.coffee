@@ -26,6 +26,9 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
             $scope.items.splice $scope.items.indexOf(@item), 1
         $localstorage.setObject("captureItems", $scope.items)
 
+    $scope.setNextStep = () ->
+        $listDataModel.setNextStep(@$parent.list.name, @item.name)
+
     $scope.changeListType = () ->
         $listDataModel.save()
 ]
@@ -58,7 +61,10 @@ quotemodule.factory "$localstorage", ["$window", ($window) ->
 quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
     listData = {}
     listData.lists = $localstorage.getObject("lists") || []
-    listData.addList = (newListName, item) ->
+    listData.addList = (newListName, itemName) ->
+        item = {
+            name: itemName
+        }
         listData.lists.push({
             name:newListName
             type:"default"
@@ -66,7 +72,10 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
         })
         listData.save()
 
-    listData.addItem = (listName, item) ->
+    listData.addItem = (listName, itemName) ->
+        item = {
+            name: itemName
+        }
         for list in listData.lists
             if list.name is listName
                 list.items.push(item)
@@ -82,7 +91,18 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
                 list.type = type
                 listData.save()
 
-        
+    listData.setNextStep = (listName, itemName) ->
+        console.log listName
+        console.log itemName
+        for list in listData.lists
+            if list.name is listName
+                for item in list.items
+                    if item.name is itemName
+                        item.nextStep = true
+                    else
+                        item.nextStep = false
+        listData.save()
+
     return listData
 
 ]
