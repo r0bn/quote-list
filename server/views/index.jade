@@ -16,6 +16,7 @@ html
                 input(type="text", th-enter="newList()", ng-model="newListElement")
         h2 Lists
         div(ng-repeat="list in lists")
-            h3{{ list.name }}
+            h3{{ list.name }}({{ list.type }})
+            select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeListType()")
             ul
                 li(ng-repeat="item in list.items"){{ item }}

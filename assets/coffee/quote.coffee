@@ -3,6 +3,7 @@ quotemodule = angular.module "quotemodule", []
 quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listDataModel", ($scope, $localstorage, $listDataModel) -> 
     
     $scope.captureElement = ""
+    $scope.listTypes = ["default", "project"]
     $scope.items = $localstorage.getObject("captureItems") || [] 
     $scope.lists = $listDataModel.lists 
 
@@ -25,6 +26,8 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
             $scope.items.splice $scope.items.indexOf(@item), 1
         $localstorage.setObject("captureItems", $scope.items)
 
+    $scope.changeListType = () ->
+        $listDataModel.save()
 ]
 
 quotemodule.directive "thEnter", ["$rootScope", ($rootScope) ->
@@ -58,12 +61,12 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
     listData.addList = (newListName, item) ->
         listData.lists.push({
             name:newListName
+            type:"default"
             items:[item]
         })
         listData.save()
 
     listData.addItem = (listName, item) ->
-        console.log listName
         for list in listData.lists
             if list.name is listName
                 list.items.push(item)
@@ -71,6 +74,14 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
 
     listData.save = () ->
         $localstorage.setObject("lists", listData.lists)
+
+
+    listData.setType = (listName, type) ->
+        for list in listData.lists
+            if list.name is listName
+                list.type = type
+                listData.save()
+
         
     return listData
 
