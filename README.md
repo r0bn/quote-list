@@ -1,2 +1,9 @@
 # quote-list
-Asdf
+
+```
+docker-compose build quotelist
+
+docker-compose run --service-ports quotelist
+```
+
+
