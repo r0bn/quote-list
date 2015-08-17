@@ -4,6 +4,7 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     
     $scope.captureElement = ""
     $scope.listTypes = ["default", "project"]
+    $scope.contextTypes = ["Telefon", "Internet", "Wohnung", "PC", "Stuttgart", "Einkaufen", "Paper", "Auto"]
     $scope.items = $localstorage.getObject("captureItems") || [] 
     $scope.lists = $listDataModel.lists 
 
@@ -32,7 +33,7 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     $scope.deleteItemFromList = () ->
         $listDataModel.deleteItem(@$parent.list, @item)
 
-    $scope.changeListType = () ->
+    $scope.changeType = () ->
         $listDataModel.save()
 ]
 

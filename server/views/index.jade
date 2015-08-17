@@ -17,14 +17,15 @@ html
 
         h2 Next Steps
         div(ng-repeat="list in lists")
-            div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'") {{ item.name }} - {{ list.name }}
+            div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'") {{ item.name }} - {{ list.name }} - {{ item.context }}
                 | &nbsp;
                 button(ng-click="deleteItemFromList()") done 
+                select(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
 
         h2 Lists
         div(ng-repeat="list in lists")
             h3 {{ list.name }}({{ list.type }})
-            select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeListType()")
+            select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeType()")
             ul
                 li(ng-repeat="item in list.items")
                     span(ng-show="item.nextStep") next Step - 
