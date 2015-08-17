@@ -5,6 +5,7 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     $scope.captureElement = ""
     $scope.listTypes = ["default", "project"]
     $scope.contextTypes = ["Telefon", "Internet", "Wohnung", "PC", "Stuttgart", "Einkaufen", "Paper", "Auto"]
+    $scope.listCategory = ["Family", "Health", "Travel", "IT", "Finance"]
     $scope.items = $localstorage.getObject("captureItems") || [] 
     $scope.lists = $listDataModel.lists 
 

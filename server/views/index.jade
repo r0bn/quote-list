@@ -24,8 +24,9 @@ html
 
         h2 Lists
         div(ng-repeat="list in lists")
-            h3 {{ list.name }}({{ list.type }})
+            h3 {{ list.name }}({{ list.type }} - {{ list.category }})
             select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeType()")
+            select(ng-model="list.category", ng-options="o as o for o in listCategory", ng-change="changeType()")
             ul
                 li(ng-repeat="item in list.items")
                     span(ng-show="item.nextStep") next Step - 
