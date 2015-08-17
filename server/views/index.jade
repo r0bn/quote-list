@@ -30,9 +30,11 @@ html
             br
             input(type="text", ng-blur="changeType()", ng-model="list.description", ng-show="list.type === 'project'")
             ul
-                li(ng-repeat="item in list.items")
+                li(ng-repeat="item in list.items | orderBy:'orderNumber'")
                     span(ng-show="item.nextStep") next Step - 
                     | {{ item.name }}
                     button(ng-click="setNextStep()", ng-show="list.type === 'project'") next Step
                     button(ng-click="deleteItemFromList()") delete 
+                    button(ng-click="itemPos('up')") up
+                    button(ng-click="itemPos('down')") down
 

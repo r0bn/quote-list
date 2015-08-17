@@ -34,6 +34,24 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     $scope.deleteItemFromList = () ->
         $listDataModel.deleteItem(@$parent.list, @item)
 
+    $scope.itemPos = (direction) ->
+        diff = @$parent.list.currentOrderNumber
+        for item in @$parent.list.items
+            if direction is "up"
+                currDiff = @item.orderNumber - item.orderNumber
+            if direction is "down"
+                currDiff = item.orderNumber - @item.orderNumber
+            if currDiff > 0 and currDiff < diff
+                changeItem = item
+                diff = currDiff
+        
+        if changeItem?
+            tmpOrderNumber = changeItem.orderNumber
+            changeItem.orderNumber = @item.orderNumber
+            @item.orderNumber = tmpOrderNumber
+
+        $listDataModel.save()
+
     $scope.changeType = () ->
         $listDataModel.save()
 ]
@@ -69,11 +87,13 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
     listData.addList = (newListName, itemName) ->
         item = {
             name: itemName
+            orderNumber:0
         }
         listData.lists.push({
             name:newListName
             type:"default"
             items:[item]
+            currentOrderNumber:1
         })
         listData.save()
 
@@ -83,6 +103,8 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
         }
         for list in listData.lists
             if list.name is listName
+                item.orderNumber = list.currentOrderNumber
+                list.currentOrderNumber++
                 list.items.push(item)
                 listData.save()
 
