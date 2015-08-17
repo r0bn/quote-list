@@ -19,7 +19,7 @@ html
         div(ng-repeat="list in lists")
             div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'") {{ item.name }} - {{ list.name }}
                 | &nbsp;
-                button(ng-click="doneNextStep()") done 
+                button(ng-click="deleteItemFromList()") done 
 
         h2 Lists
         div(ng-repeat="list in lists")
@@ -30,4 +30,5 @@ html
                     span(ng-show="item.nextStep") next Step - 
                     | {{ item.name }}
                     button(ng-click="setNextStep()", ng-show="list.type === 'project'") next Step
+                    button(ng-click="deleteItemFromList()") delete 
 

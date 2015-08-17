@@ -29,7 +29,7 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     $scope.setNextStep = () ->
         $listDataModel.setNextStep(@$parent.list.name, @item.name)
 
-    $scope.doneNextStep = () ->
+    $scope.deleteItemFromList = () ->
         $listDataModel.deleteItem(@$parent.list, @item)
 
     $scope.changeListType = () ->
