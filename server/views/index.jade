@@ -27,6 +27,8 @@ html
             h3 {{ list.name }}({{ list.type }} - {{ list.category }})
             select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeType()")
             select(ng-model="list.category", ng-options="o as o for o in listCategory", ng-change="changeType()")
+            br
+            input(type="text", ng-blur="changeType()", ng-model="list.description", ng-show="list.type === 'project'")
             ul
                 li(ng-repeat="item in list.items")
                     span(ng-show="item.nextStep") next Step - 
