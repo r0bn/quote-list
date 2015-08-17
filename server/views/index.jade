@@ -1,12 +1,16 @@
+//https://angular-ui.github.io/bootstrap/
 doctype html
 html
     head
         script(src="/static/build/client.js")
+        link(rel="stylesheet", href="/static/build/vendor.css")
+        link(rel="stylesheet", href="/static/build/main.css")
         title quote-list
     
     body(ng-app="quotemodule", ng-controller="quotecontroller")
         h1 {{ test }}
         h2 Kalbshack 6
+        button.btn.btn-primary(type="button", ng-model="test", btn-checkbox, btn-checkbox-true="franz", btn-checkbox-false="josef") asdf asdf
         input(type="text", th-enter="doCapture()", ng-model="captureElement")
         ul
             li(ng-repeat="item in items") {{ item }}

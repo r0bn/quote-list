@@ -1,7 +1,8 @@
-quotemodule = angular.module "quotemodule", []
+quotemodule = angular.module "quotemodule", ["ui.bootstrap"]
 
 quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listDataModel", ($scope, $localstorage, $listDataModel) -> 
-    
+   
+    $scope.test = ""
     $scope.captureElement = ""
     $scope.listTypes = ["default", "project"]
     $scope.contextTypes = ["Telefon", "Internet", "Wohnung", "PC", "Stuttgart", "Einkaufen", "Paper", "Auto"]

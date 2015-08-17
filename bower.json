@@ -11,6 +11,8 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.3"
+    "angular": "~1.4.3",
+    "bootswatch-dist": "readable",
+    "angular-bootstrap": "~0.13.3"
   }
 }
