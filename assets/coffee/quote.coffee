@@ -29,6 +29,9 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
     $scope.setNextStep = () ->
         $listDataModel.setNextStep(@$parent.list.name, @item.name)
 
+    $scope.doneNextStep = () ->
+        $listDataModel.deleteItem(@$parent.list, @item)
+
     $scope.changeListType = () ->
         $listDataModel.save()
 ]
@@ -80,6 +83,11 @@ quotemodule.factory "$listDataModel", ["$localstorage", ($localstorage) ->
             if list.name is listName
                 list.items.push(item)
                 listData.save()
+
+    listData.deleteItem = (list, item) ->
+        list.items.splice list.items.indexOf(item), 1
+        listData.save()
+        
 
     listData.save = () ->
         $localstorage.setObject("lists", listData.lists)

@@ -9,17 +9,21 @@ html
         h2 Kalbshack 6
         input(type="text", th-enter="doCapture()", ng-model="captureElement")
         ul
-            li(ng-repeat="item in items"){{ item }}
+            li(ng-repeat="item in items") {{ item }}
                 | &nbsp;
                 select(ng-model="targetList", ng-options="o.name as o.name for o in lists", ng-change="moveToList()")
                 | &nbsp;
                 input(type="text", th-enter="newList()", ng-model="newListElement")
+
         h2 Next Steps
         div(ng-repeat="list in lists")
-            div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'"){{ item.name }} - {{ list.name }}
+            div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'") {{ item.name }} - {{ list.name }}
+                | &nbsp;
+                button(ng-click="doneNextStep()") done 
+
         h2 Lists
         div(ng-repeat="list in lists")
-            h3{{ list.name }}({{ list.type }})
+            h3 {{ list.name }}({{ list.type }})
             select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeListType()")
             ul
                 li(ng-repeat="item in list.items")
