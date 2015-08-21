@@ -30,7 +30,7 @@ html
                                                 select.form-control(ng-model="targetList", ng-options="o.name as o.name for o in lists", ng-change="moveToList()")
                                             .col-md-6
                                                 input.form-control(type="text", th-enter="newList()", ng-model="newListElement")
-                        tab(heading="Next Step", active="true")
+                        tab(heading="Next Step")
                             ul.list-group(style="margin-top:20px;", ng-repeat="(key, value) in lists | nextStepFilter | groupBy:'context'") 
                             
                                 h3 {{ key }}
@@ -45,12 +45,11 @@ html
                                                 h5 {{ item.context }}
                                         .row
                                             .col-md-4
-                                                select.form-control(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
                                             .col-md-2.pull-right
                                                 button.btn.btn-success.pull-right(ng-click="deleteItemFromList()") done 
 
                         tab(heading="Projects")
-                        tab(heading="Lists")
+                        tab(heading="Lists", active="true")
                             .container-fixed
                                 .row
                                     .col-md-4
@@ -89,3 +88,7 @@ html
                                                                     button.btn.btn-danger(ng-click="deleteItemFromList()") delete 
                                                                     button.btn(ng-click="itemPos('up')") up
                                                                     button.btn(ng-click="itemPos('down')") down
+                                                            .row
+                                                                .col-md-6
+                                                                    select.form-control(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
+
