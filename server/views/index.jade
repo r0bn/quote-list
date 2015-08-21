@@ -2,43 +2,89 @@
 doctype html
 html
     head
+        meta(name="viewport", content="width=device-width")
         script(src="/static/build/client.js")
         link(rel="stylesheet", href="/static/build/vendor.css")
         link(rel="stylesheet", href="/static/build/main.css")
         title quote-list
     
     body(ng-app="quotemodule", ng-controller="quotecontroller")
-        h1 {{ test }}
-        h2 Kalbshack 6
-        button.btn.btn-primary(type="button", ng-model="test", btn-checkbox, btn-checkbox-true="franz", btn-checkbox-false="josef") asdf asdf
-        input(type="text", th-enter="doCapture()", ng-model="captureElement")
-        ul
-            li(ng-repeat="item in items") {{ item }}
-                | &nbsp;
-                select(ng-model="targetList", ng-options="o.name as o.name for o in lists", ng-change="moveToList()")
-                | &nbsp;
-                input(type="text", th-enter="newList()", ng-model="newListElement")
+        .container
+            .row
+                .col-md-12
+                    div(style="height:30px")
+                    input.form-control(type="text", th-enter="doCapture()", ng-model="captureElement")
+                    div(style="height:30px")
+            .row
+                .col-md-12
+                    tabset
+                        tab(heading="Capture")
+                            ul.list-group(style="margin-top:20px;")
+                                li.list-group-item(ng-repeat="item in items")
+                                    .container-fixed
+                                        .row
+                                            .col-md-12
+                                                h4 {{ item }}
+                                        .row
+                                            .col-md-3
+                                                select.form-control(ng-model="targetList", ng-options="o.name as o.name for o in lists", ng-change="moveToList()")
+                                            .col-md-6
+                                                input.form-control(type="text", th-enter="newList()", ng-model="newListElement")
+                        tab(heading="Next Step")
+                            ul.list-group(style="margin-top:20px;")
+                                div(ng-repeat="list in lists")
+                                    li.list-group-item(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'")
+                                        .container-fixed
+                                            .row
+                                                .col-md-3
+                                                    h4 {{ item.name }}
+                                                .col-md-3
+                                                    h5 {{ list.name }}
+                                                .col-md-3
+                                                    h5 {{ item.context }}
+                                            .row
+                                                .col-md-4
+                                                    select.form-control(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
+                                                .col-md-2.pull-right
+                                                    button.btn.btn-success.pull-right(ng-click="deleteItemFromList()") done 
 
-        h2 Next Steps
-        div(ng-repeat="list in lists")
-            div(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'") {{ item.name }} - {{ list.name }} - {{ item.context }}
-                | &nbsp;
-                button(ng-click="deleteItemFromList()") done 
-                select(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
+                        tab(heading="Projects")
+                        tab(heading="Lists", active="true")
+                            .container-fixed
+                                .row
+                                    .col-md-4
+                                        ul.nav.nav-pills.nav-stacked
+                                            li(ng-repeat="list in lists")
+                                                a(style="cursor: pointer;", ng-click="selectList()", ng-class="{ active:list.selected }") {{ list.name }}
+                                    .col-md-8(ng-show="activeList")
+                                        .row
+                                            .col-md-3
+                                                h4 {{ activeList.name }}
+                                            .col-md-3
+                                                h5 {{ activeList.category }}
+                                            .col-md-3
+                                                h5 {{ activeList.type }}
+                                        .row
+                                            .col-md-6
+                                                select.form-control(ng-model="activeList.type", ng-options="o as o for o in listTypes", ng-change="changeType()")
+                                            .col-md-6
+                                                select.form-control(ng-model="activeList.category", ng-options="o as o for o in listCategory", ng-change="changeType()")
+                                        .row
+                                            .col-md-6
+                                                input.form-control(type="text", ng-blur="changeType()", ng-model="activeList.description")
 
-        h2 Lists
-        div(ng-repeat="list in lists")
-            h3 {{ list.name }}({{ list.type }} - {{ list.category }})
-            select(ng-model="list.type", ng-options="o as o for o in listTypes", ng-change="changeType()")
-            select(ng-model="list.category", ng-options="o as o for o in listCategory", ng-change="changeType()")
-            br
-            input(type="text", ng-blur="changeType()", ng-model="list.description", ng-show="list.type === 'project'")
-            ul
-                li(ng-repeat="item in list.items | orderBy:'orderNumber'")
-                    span(ng-show="item.nextStep") next Step - 
-                    | {{ item.name }}
-                    button(ng-click="setNextStep()", ng-show="list.type === 'project'") next Step
-                    button(ng-click="deleteItemFromList()") delete 
-                    button(ng-click="itemPos('up')") up
-                    button(ng-click="itemPos('down')") down
+                                        .row
+                                            .col-md-12
 
+                                                ul.list-group(style="margin-top:20px;")
+                                                    li.list-group-item(ng-repeat="item in activeList.items | orderBy:'otderNumber'")
+                                                        .container-fixed
+                                                            .row
+                                                                .col-md-4
+                                                                    h4 {{ item.name }}
+                                                            .row
+                                                                .col-md-12
+                                                                    button.btn.btn-primary(ng-click="setNextStep()") next Step
+                                                                    button.btn.btn-danger(ng-click="deleteItemFromList()") delete 
+                                                                    button.btn(ng-click="itemPos('up')") up
+                                                                    button.btn(ng-click="itemPos('down')") down

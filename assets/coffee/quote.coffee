@@ -55,6 +55,13 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
 
     $scope.changeType = () ->
         $listDataModel.save()
+
+    $scope.selectList = () ->
+        for list in $scope.lists
+            list.selected = false
+        @list.selected = true
+        $scope.activeList = @list
+
 ]
 
 quotemodule.directive "thEnter", ["$rootScope", ($rootScope) ->
