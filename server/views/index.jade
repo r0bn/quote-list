@@ -30,26 +30,27 @@ html
                                                 select.form-control(ng-model="targetList", ng-options="o.name as o.name for o in lists", ng-change="moveToList()")
                                             .col-md-6
                                                 input.form-control(type="text", th-enter="newList()", ng-model="newListElement")
-                        tab(heading="Next Step")
-                            ul.list-group(style="margin-top:20px;")
-                                div(ng-repeat="list in lists")
-                                    li.list-group-item(ng-repeat="item in list.items", ng-show="item.nextStep && list.type === 'project'")
-                                        .container-fixed
-                                            .row
-                                                .col-md-3
-                                                    h4 {{ item.name }}
-                                                .col-md-3
-                                                    h5 {{ list.name }}
-                                                .col-md-3
-                                                    h5 {{ item.context }}
-                                            .row
-                                                .col-md-4
-                                                    select.form-control(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
-                                                .col-md-2.pull-right
-                                                    button.btn.btn-success.pull-right(ng-click="deleteItemFromList()") done 
+                        tab(heading="Next Step", active="true")
+                            ul.list-group(style="margin-top:20px;", ng-repeat="(key, value) in lists | nextStepFilter | groupBy:'context'") 
+                            
+                                h3 {{ key }}
+                                li.list-group-item(ng-repeat="item in value")
+                                    .container-fixed
+                                        .row
+                                            .col-md-3
+                                                h4 {{ item.name }}
+                                            .col-md-3
+                                                h5 {{ list.name }}
+                                            .col-md-3
+                                                h5 {{ item.context }}
+                                        .row
+                                            .col-md-4
+                                                select.form-control(ng-model="item.context", ng-options="o as o for o in contextTypes", ng-change="changeType()")
+                                            .col-md-2.pull-right
+                                                button.btn.btn-success.pull-right(ng-click="deleteItemFromList()") done 
 
                         tab(heading="Projects")
-                        tab(heading="Lists", active="true")
+                        tab(heading="Lists")
                             .container-fixed
                                 .row
                                     .col-md-4

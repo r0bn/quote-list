@@ -14,6 +14,8 @@ gulp.task "client-js", () ->
     merge(
         gulp.src([
             "./bower_components/angular/angular.js"
+            "./bower_components/underscore/underscore.js"
+            "./bower_components/angular-underscore/angular-underscore.js"
             "./bower_components/angular-bootstrap/ui-bootstrap-tpls.js"
         ])
     ,

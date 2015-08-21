@@ -1,4 +1,4 @@
-quotemodule = angular.module "quotemodule", ["ui.bootstrap"]
+quotemodule = angular.module "quotemodule", ["ui.bootstrap", "angular-underscore/utils"]
 
 quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listDataModel", ($scope, $localstorage, $listDataModel) -> 
    
@@ -30,7 +30,7 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
         $localstorage.setObject("captureItems", $scope.items)
 
     $scope.setNextStep = () ->
-        $listDataModel.setNextStep(@$parent.list.name, @item.name)
+        $listDataModel.setNextStep($scope.activeList.name, @item.name)
 
     $scope.deleteItemFromList = () ->
         $listDataModel.deleteItem(@$parent.list, @item)
@@ -63,6 +63,28 @@ quotemodule.controller "quotecontroller", ["$scope", "$localstorage", "$listData
         $scope.activeList = @list
 
 ]
+
+quotemodule.filter "nextStepFilter", () ->
+    return (input) ->
+        console.log "test2"
+        returnItems = []
+        for list in input
+            for item in list.items
+                if item.nextStep
+                    returnItems.push item
+        #console.log returnItems
+        return returnItems
+
+quotemodule.filter "groupBy", () ->
+    _.memoize (input, field) ->
+        console.log "test"
+        _.groupBy input, field
+    , (input, field) ->
+        returnValue = ""
+        for items in input
+            returnValue += items.context
+        returnValue += field
+        return returnValue
 
 quotemodule.directive "thEnter", ["$rootScope", ($rootScope) ->
     {
